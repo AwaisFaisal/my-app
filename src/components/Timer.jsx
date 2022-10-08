@@ -1,11 +1,25 @@
 
+import { useEffect, useState } from 'react'
 
-const Timer = ({ timer }) => {
-  
+const Timer = ({ count }) => {
+
+  const [time, setTime] = useState(count)
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      console.log("minus: ", time)
+      setTime(time - 1);
+    }, 1000)
+
+    return () => {
+      clearTimeout(timer)
+    }
+  }, [time])
+
 
   return (
     <div className='timer'>
-      <span>{timer}</span>
+      <span>{time}</span>
     </div>
   )
 }
