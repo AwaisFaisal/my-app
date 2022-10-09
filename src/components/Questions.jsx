@@ -1,17 +1,29 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { QUESTION_TIMER } from "../constants/questions";
+import useTimer from "../hooks/useTimer";
 import Timer from "./Timer"
 
 const Questions = ({ questions, handleCorrectQuestion, handleOnEnd }) => {
   const [counter, setCounter] = useState(0);
+  const [time, resetTime] = useTimer(QUESTION_TIMER)
 
 
+  useEffect(() => {
+    if (time === 0) {
+      renderNewQuestion()
+    }
+  })
+
+  const renderNewQuestion = () => {
+    resetTime()
+    counting();
+  }
 
   const selectOption = (isCorrect) => {
     if (isCorrect) {
       handleCorrectQuestion()
-      console.log("correct");
     }
-    counting();
+    renderNewQuestion()
   };
 
   //Question Count
@@ -28,7 +40,7 @@ const Questions = ({ questions, handleCorrectQuestion, handleOnEnd }) => {
 
   return (
     <div>
-      <Timer count={10} />
+      <Timer time={time} />
       <div className='qcontainer'>
         <h3>{counter + 1}. {questions[counter].questionText}</h3>
         {questions[counter].answerOptions.map((answerOption, index) =>

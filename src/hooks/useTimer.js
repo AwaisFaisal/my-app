@@ -1,20 +1,22 @@
-import { useEffect, useState} from 'react'
+import { useEffect, useState } from "react";
+import { QUESTION_TIMER } from "../constants/questions";
+
 const useTimer = (initialValue) => {
-    const [timer, setTimer] = useState(initialValue)
-    useEffect(()=> {
-        console.log(timer)
-          if (timer > 0 ) {
-            setTimeout(() => {
-              setTimer(timer - 1)
-              
-            }, 1000);
-            
-          }
-        
-       }, [timer])
+  const [time, setTime] = useState(initialValue);
 
- //const setReset =() => {setTimer(initialValue)}
-      return [timer, setTimer];
-}
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setTime(time - 1);
+    }, 1000);
 
-export default useTimer; 
+    return () => clearTimeout(timer);
+  });
+
+  const resetTime = () => {
+    setTime(initialValue);
+  };
+
+  return [time, resetTime];
+};
+
+export default useTimer;

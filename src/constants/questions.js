@@ -1,0 +1,3 @@
+const QUESTION_TIMER = 10;
+
+export { QUESTION_TIMER };
